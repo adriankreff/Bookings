@@ -1,0 +1,9 @@
+bookings:
+    path: /
+    controller: App\Controller\HomeController::index
+
+bookings_get:
+  path: /bookings
+  controller:   App\Controller\HomeController::search
+  methods:  [GET]
+

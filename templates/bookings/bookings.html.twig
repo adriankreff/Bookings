@@ -1,0 +1,101 @@
+{% block page_title %}
+	<h1>Reservas</h1>
+{% endblock %}
+
+{% block main %}
+	{{ include('bookings/partials/list_bookings.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+
+
+	<script>
+		function addBookingsList(url) {
+            const tableBody = document.getElementById("bookings-list");
+            fetch(url).then(function (response) {
+                return response.json();
+            }).then(function (response) {
+                console.log(response);
+                tableBody.innerHTML = "";
+                response.data.forEach(function (booking) {
+                    let bookingRow = document.createElement("tr");
+                    bookingRow.appendChild(tableCellFor(booking.locator));
+                    bookingRow.appendChild(tableCellFor(booking.guest));
+                    bookingRow.appendChild(tableCellFor(booking.entryDate));
+                    bookingRow.appendChild(tableCellFor(booking.departureDate));
+                    bookingRow.appendChild(tableCellFor(booking.hotel));
+                    bookingRow.appendChild(tableCellFor(booking.price));
+                    bookingRow.appendChild(tableCellFor(booking.possibleActions));
+                    tableBody.appendChild(bookingRow);
+                })
+            });
+        }
+
+		function dowloadBookingsList(url) {
+
+            fetch(url).then(function (response) {
+                return response.json();
+            }).then(function (response) {
+                var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(response.data));
+                var downloadElement = document.getElementById('downloadBookingListElement');
+                downloadElement.setAttribute("href",     dataStr     );
+                downloadElement.setAttribute("download", "BookingList.json");
+                downloadElement.click();                               
+            });
+        }
+
+        function tableCellFor(text) {
+            const cell = document.createElement("td");
+            cell.appendChild(document.createTextNode(text));
+            return cell;
+        }
+
+        function getUrlFilters(){
+            const inputs = Array.from(document.getElementsByClassName("fieldSearch"));
+            const urlParts = inputs.filter(input => {
+                if(input.value!=="")
+                    return input.name + "=" + input.value
+            });
+
+            return urlParts.map(input => {              
+                    return input.name + "=" + input.value
+            });
+        }
+
+        
+        function getUrl(filters){
+           return window.location.href+"bookings?" + filters.join("&");
+        }
+
+        function refreshBookings() {
+
+            const filters= getUrlFilters();
+
+            const url = getUrl(filters);
+
+            addBookingsList(url);
+        }      
+
+        function downloadBookings() {
+
+            const filters= getUrlFilters();
+
+            const url = getUrl(filters);
+
+            dowloadBookingsList(url);
+        }          
+
+        function eventsInit(){
+            
+            const fieldSearchsElements= document.getElementsByClassName("fieldSearch");
+            
+            for(i=0 ; i<fieldSearchsElements.length ; i++){
+                fieldSearchsElements[i].addEventListener("blur", refreshBookings);
+            }
+        }
+    
+        eventsInit();
+	</script>
+
+
+{% endblock %}

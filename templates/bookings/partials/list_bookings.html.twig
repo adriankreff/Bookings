@@ -1,0 +1,57 @@
+<h3 class="font-sans text-gray-800 text-center text-3xl mb-10">Lista de Reservas</h3>
+<button  id="downloadBookings" onclick="downloadBookings()">
+	Descargar
+</button>
+
+<table class="text-left w-full border-collapse">
+	<thead>
+		<tr>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				Locator
+			</th>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				Guest
+			</th>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				Entry Date
+			</th>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				Departure
+			</th>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				Hotel
+			</th>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				Price
+			</th>
+			<th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
+				PossibleActions
+			</th>
+		</tr>
+		<tr>
+			<td><input type="text" class="fieldSearch" name="locator"></td>
+			<td><input type="text" class="fieldSearch" name="guest"></td>
+			<td><input type="text" class="fieldSearch" name="entryDate"></td>
+			<td><input type="text" class="fieldSearch" name="departureDate"></td>
+			<td><input type="text" class="fieldSearch" name="hotel"></td>
+			<td><input type="text" class="fieldSearch" name="price"></td>
+			<td><input type="text" class="fieldSearch" name="possibleActions"></td>
+		</tr>
+	</thead>
+	<tbody id="bookings-list">
+		{% for booking in bookings %}
+			<tr>
+				<td>{{ booking.locator }}</td>
+				<td>{{ booking.guest }}</td>
+				<td>{{ booking.entryDate }}</td>
+				<td>{{ booking.departureDate }}</td>
+				<td>{{ booking.hotel }}</td>
+				<td>{{ booking.price }}</td>
+				<td>{{ booking.possibleActions }}</td>
+			</tr>
+		{% endfor %}
+
+	</tbody>
+
+	<a id="downloadBookingListElement" style="display:none"></a>
+</table>
